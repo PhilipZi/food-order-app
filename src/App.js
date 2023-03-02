@@ -6,7 +6,7 @@ import Meals from "./components/Meals/Meals";
 function App() {
   return (
     <Fragment>
-      <Header />;
+      <Header />
       <main>
         <Meals />
       </main>

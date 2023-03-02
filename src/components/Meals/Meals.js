@@ -6,8 +6,8 @@ import MealsSummary from "./MealsSummary";
 function Meals() {
   return (
     <React.Fragment>
-      <MealsSummary />;
-      <AvailableMeals />;
+      <MealsSummary />
+      <AvailableMeals />
     </React.Fragment>
   );
 }
