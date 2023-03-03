@@ -1,4 +1,4 @@
-import React, { useRef, useSate, useState } from "react";
+import React, { useRef, useState } from "react";
 
 import Input from "../UI/Input";
 
