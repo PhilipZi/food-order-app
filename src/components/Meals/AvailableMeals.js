@@ -44,6 +44,14 @@ function AvailableMeals() {
     fetchMealsHandler();
   }, []);
 
+  if (isLoading) {
+    return (
+      <section className={classes.mealsLoading}>
+        <p>Loading...</p>
+      </section>
+    );
+  }
+
   const mealsList = meals.map((meal) => (
     <MealItem
       id={meal.id}
@@ -57,7 +65,6 @@ function AvailableMeals() {
   return (
     <section className={classes.meals}>
       <Card>
-        {isLoading && <p>loading...</p>}
         <ul>{mealsList}</ul>
       </Card>
     </section>
