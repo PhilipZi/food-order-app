@@ -57,6 +57,7 @@ function AvailableMeals() {
   return (
     <section className={classes.meals}>
       <Card>
+        {isLoading && <p>loading...</p>}
         <ul>{mealsList}</ul>
       </Card>
     </section>
