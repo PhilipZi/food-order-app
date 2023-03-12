@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { Fragment, useContext, useState } from "react";
 
 import CartItem from "./CartItem";
 import Modal from "../UI/Modal";
@@ -8,6 +8,8 @@ import classes from "./Cart.module.css";
 
 function Cart(props) {
   const [isCheckout, setIsCheckout] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [didSubmit, setDidSubmit] = useState(false);
 
   const cartCtx = useContext(CartContext);
 
@@ -26,8 +28,9 @@ function Cart(props) {
     setIsCheckout(true);
   }
 
-  function submitOrderHandler(userData) {
-    fetch(
+  async function submitOrderHandler(userData) {
+    setIsSubmitting(true);
+    await fetch(
       "https://food-order-app-36bf6-default-rtdb.europe-west1.firebasedatabase.app/orders.json",
       {
         method: "POST",
@@ -37,6 +40,8 @@ function Cart(props) {
         }),
       }
     );
+    setIsSubmitting(false);
+    setDidSubmit(true);
   }
 
   const cartItems = (
@@ -67,8 +72,8 @@ function Cart(props) {
     </div>
   );
 
-  return (
-    <Modal onClose={props.onCloseCart}>
+  const cartModalContent = (
+    <React.Fragment>
       {cartItems}
       <div className={classes.total}>
         <span>Total Amount</span>
@@ -78,6 +83,27 @@ function Cart(props) {
         <Checkout onCancel={props.onCloseCart} onConfirm={submitOrderHandler} />
       )}
       {!isCheckout && modalActions}
+    </React.Fragment>
+  );
+
+  const isSubmittingModalContent = <p>Sending order data...</p>;
+
+  const didSubmitModalContent = (
+    <React.Fragment>
+      <p>Successfully send the order!</p>
+      <div className={classes.actions}>
+        <button className={classes.button} onClick={props.onCloseCart}>
+          Close
+        </button>
+      </div>
+    </React.Fragment>
+  );
+
+  return (
+    <Modal onClose={props.onCloseCart}>
+      {!isSubmitting && !didSubmit && cartModalContent}
+      {isSubmitting && isSubmittingModalContent}
+      {!isSubmitting && didSubmit && didSubmitModalContent}
     </Modal>
   );
 }
